@@ -15,7 +15,7 @@ async def get_info():
         "app_name": settings.PROJECT_NAME,
         "version": "1.0.0",
         "environment": settings.ENVIRONMENT,
-        "description": "Production-ready FastAPI AI Backend",
+        "description": "Production-ready FastAPI AI Backend", 
         "docs_url": "/docs",
         "redoc_url": "/redoc",
         "timestamp": datetime.now(timezone.utc).isoformat()
