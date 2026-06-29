@@ -28,4 +28,6 @@ jobs:
           export IMAGE_NAME=${{ secrets.DOCKER_IMAGE }}
           export IMAGE_TAG=${{ inputs.image_tag }}
 
+          echo "🐳 Deploying image: ${IMAGE_NAME}:${IMAGE_TAG}"
+
           docker-compose up -d --pull always
