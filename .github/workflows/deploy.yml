@@ -28,4 +28,4 @@ jobs:
           export IMAGE_NAME=${{ secrets.DOCKER_IMAGE }}
           export IMAGE_TAG=${{ inputs.image_tag }}
 
-          docker compose up -d --pull always
+          docker-compose up -d --pull always
