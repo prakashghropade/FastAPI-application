@@ -17,17 +17,30 @@ jobs:
 
     steps:
       - name: Deploy Application
+        shell: bash
         run: |
+          set -e
+
           cd /home/ubuntu/FastAPI-application
 
+          echo "Logging into Docker Hub..."
           docker login \
             -u "${{ secrets.DOCKER_USERNAME }}" \
             -p "${{ secrets.DOCKER_PASSWORD }}"
 
+          export IMAGE_TAG="${{ inputs.image_tag }}"
 
-          export IMAGE_NAME=${{ secrets.DOCKER_IMAGE }}
-          export IMAGE_TAG=${{ inputs.image_tag }}
+          echo "IMAGE_NAME=$IMAGE_NAME"
+          echo "IMAGE_TAG=$IMAGE_TAG"
+          echo "Deploying image: ${IMAGE_NAME}:${IMAGE_TAG}"
 
-          echo "🐳 Deploying image: ${IMAGE_NAME}:${IMAGE_TAG}" 
-
+          echo "Starting deployment..."
           docker-compose up -d --pull always
+
+          echo "Deployment completed."
+
+          echo "Running containers:"
+          docker ps
+
+          echo "Compose status:"
+          docker-compose ps
