@@ -35,7 +35,7 @@ jobs:
           echo "Deploying image: ${IMAGE_NAME}:${IMAGE_TAG}"
 
           echo "Starting deployment..."
-          docker-compose up -d --pull always
+          docker compose up -d --force-recreate
 
           echo "Deployment completed."
 
