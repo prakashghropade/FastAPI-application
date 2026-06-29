@@ -1,6 +1,13 @@
 name: Build
 
 on:
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: Docker Image Tag
+        required: true
+        type: string
+        default: latest
   workflow_call:
     inputs:
       image_tag:
