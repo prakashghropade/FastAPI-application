@@ -66,7 +66,7 @@ class RateLimitMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next) -> Response:
         # Bypass rate limiting for health check, API documentation, or static files
         path = request.url.path
-        if path in ["/", "/health", "/docs", "/openapi.json", "/redoc"]:
+        if path in ["/", "/health", "/docs", "/openapi.json", "/redoc"] or path.startswith("/public/"):
             return await call_next(request)
             
         client_ip = request.client.host if request.client else "unknown"
