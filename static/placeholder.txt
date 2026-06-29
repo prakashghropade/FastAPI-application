@@ -1,0 +1,2 @@
+This is a placeholder file in the static assets directory.
+Add static assets here (e.g. CSS, images, client downloads) to serve them via NGINX under '/static/'.
