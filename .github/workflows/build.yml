@@ -6,6 +6,7 @@ on:
       image_tag:
         description: Docker Image Tag
         required: true
+        type: string
 
 jobs:
   build:
@@ -24,11 +25,11 @@ jobs:
       - name: Build Docker image
         run: |
           docker build \
-            -t ${{ secrets.DOCKER_IMAGE_NAME }}:${{ github.event.inputs.image_tag }} .
+            -t ${{ secrets.DOCKER_IMAGE_NAME }}:${{ inputs.image_tag }} .
 
       - name: Push Image
         run: |
-          docker push ${{ secrets.DOCKER_IMAGE_NAME }}:${{ github.event.inputs.image_tag }}
+          docker push ${{ secrets.DOCKER_IMAGE_NAME }}:${{ inputs.image_tag }}
 
   # deploy:
   #   needs: build
