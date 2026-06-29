@@ -1,0 +1,32 @@
+name: Deploy Docker Image
+
+on:
+  workflow_call:
+    inputs:
+      image_tag:
+        required: true
+        type: string
+
+env:
+  IMAGE_NAME: ${{ secrets.DOCKER_IMAGE_NAME }}
+
+jobs:
+  deploy:
+    runs-on:
+      - self-hoste
+      - FastapiRunner
+
+    steps:
+      - name: Deploy Application
+        run: |
+          cd /home/ubuntu/FastAPI-application
+
+          docker login \
+            -u "${{ secrets.DOCKER_USERNAME }}" \
+            -p "${{ secrets.DOCKER_PASSWORD }}"
+
+
+          export IMAGE_NAME=${{ secrets.DOCKER_IMAGE }}
+          export IMAGE_TAG=${{ inputs.image_tag }}
+
+          docker compose up -d --pull always
