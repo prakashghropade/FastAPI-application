@@ -1,0 +1,47 @@
+name: Green Deploy
+
+on:
+  workflow_call:
+    inputs:
+      image_tag:
+        required: true
+        type: string
+
+env:
+  IMAGE_NAME: ${{ secrets.DOCKER_IMAGE_NAME }}
+
+jobs:
+  deploy:
+    runs-on:
+      - greenrunner
+
+    steps:
+      - name: Deploy Application
+        shell: bash
+        run: |
+          set -e
+
+          cd /home/ubuntu/FastAPI-application
+
+          echo "Logging into Docker Hub..."
+          docker login \
+            -u "${{ secrets.DOCKER_USERNAME }}" \
+            -p "${{ secrets.DOCKER_PASSWORD }}"
+
+          export IMAGE_TAG="${{ inputs.image_tag }}"
+
+          echo "IMAGE_NAME=$IMAGE_NAME"
+          echo "IMAGE_TAG=$IMAGE_TAG"
+          echo "Deploying image: ${IMAGE_NAME}:${IMAGE_TAG}"
+
+          echo "Starting deployment..."
+          docker compose down
+          docker compose pull
+          docker compose up -d
+          echo "Deployment completed."
+ 
+          echo "Running containers:"
+          docker ps
+
+          echo "Compose status:"
+          docker compose ps

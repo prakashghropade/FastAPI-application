@@ -9,6 +9,15 @@ on:
         type: string
         default: latest
 
+      deploy_to:
+        description: Deploy Environment
+        required: true
+        type: choice
+        options:
+          - blue
+          - green
+        default: blue
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -23,18 +32,27 @@ jobs:
 
       - uses: docker/setup-buildx-action@v3
 
-      - name: Build Docker image
+      - name: Build Docker Image
         run: |
           docker build \
             -t ${{ secrets.DOCKER_IMAGE_NAME }}:${{ inputs.image_tag }} .
 
-      - name: Push Image
+      - name: Push Docker Image
         run: |
           docker push ${{ secrets.DOCKER_IMAGE_NAME }}:${{ inputs.image_tag }}
 
-  deploy:
+  deploy-blue:
     needs: build
-    uses: ./.github/workflows/deploy.yml
+    if: inputs.deploy_to == 'blue'
+    uses: ./.github/workflows/deploy-blue.yml
     with:
-      image_tag: ${{ github.event.inputs.image_tag }}
+      image_tag: ${{ inputs.image_tag }}
+    secrets: inherit
+
+  deploy-green:
+    needs: build
+    if: inputs.deploy_to == 'green'
+    uses: ./.github/workflows/deploy-green.yml
+    with:
+      image_tag: ${{ inputs.image_tag }}
     secrets: inherit

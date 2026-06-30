@@ -1,4 +1,4 @@
-name: Deploy
+name: Blue Deploy
 
 on:
   workflow_call:
@@ -13,7 +13,7 @@ env:
 jobs:
   deploy:
     runs-on:
-      - FastapiRunner
+      - bluerunner
 
     steps:
       - name: Deploy Application
@@ -35,13 +35,13 @@ jobs:
           echo "Deploying image: ${IMAGE_NAME}:${IMAGE_TAG}"
 
           echo "Starting deployment..."
-          docker-compose down
-          docker-compose pull
-          docker-compose up -d
+          docker compose down
+          docker compose pull
+          docker compose up -d
           echo "Deployment completed."
  
           echo "Running containers:"
           docker ps
 
           echo "Compose status:"
-          docker-compose ps
+          docker compose ps
