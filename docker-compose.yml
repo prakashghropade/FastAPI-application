@@ -2,11 +2,7 @@ version: "3.8"
 
 services:
   fastapi:
-    build:
-      context: .
-      dockerfile: Dockerfile
-
-    image: fastapi-app:latest
+    image: ${IMAGE_NAME}:${IMAGE_TAG}
     container_name: fastapi_server
     restart: unless-stopped
 
