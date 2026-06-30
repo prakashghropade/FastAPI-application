@@ -22,6 +22,24 @@ async def get_info():
     }
 
 
+@router.get("/project-info", tags=["public"])
+async def get_project_info():
+    """
+    Public endpoint returning project metadata in JSON.
+    No authentication required.
+    """
+    return {
+        "project": {
+            "name": settings.PROJECT_NAME,
+            "version": "1.0.0",
+            "environment": settings.ENVIRONMENT,
+            "description": "Production-ready FastAPI AI Backend",
+            "status": "active"
+        },
+        "timestamp": datetime.now(timezone.utc).isoformat()
+    }
+
+
 @router.get("/ping", tags=["public"])
 async def ping():
     """
